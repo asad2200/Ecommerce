@@ -27,12 +27,18 @@ class ShippingAddressAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(Brand)
+@admin.register(Brand)
+class BrandAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "name",
         "brand",
         "qty",
