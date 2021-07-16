@@ -1,0 +1,147 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{%block title%}
+Cart
+{%endblock%}
+
+{% block style %}
+
+{% endblock %}
+
+{%block body%}
+<!--================ Cart Area =================-->
+<section class="cart_area">
+    <div class="container">
+        <div class="mt-5"></div>
+        <div class="cart_inner">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="{% static 'mainapp/img/cart.jpg' %}" alt="" />
+                                    </div>
+                                    <div class="media-body">
+                                        <p>Minimalistic shop for multipurpose use</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$360.00</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input disabled type="text" name="qty" value="1" class="input-text qty" />
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$720.00</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="{% static 'mainapp/img/cart.jpg' %}" alt="" />
+                                    </div>
+                                    <div class="media-body">
+                                        <p>Minimalistic shop for multipurpose use</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$360.00</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input disabled type="text" name="qty" value="1" class="input-text qty" />
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$720.00</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="media">
+                                    <div class="d-flex">
+                                        <img src="{% static 'mainapp/img/cart.jpg' %}" alt="" />
+                                    </div>
+                                    <div class="media-body">
+                                        <p>Minimalistic shop for multipurpose use</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$360.00</h5>
+                            </td>
+                            <td>
+                                <div class="product_count">
+                                    <input disabled type="text" name="qty" value="1" class="input-text qty" />
+                                </div>
+                            </td>
+                            <td>
+                                <h5>$720.00</h5>
+                            </td>
+                        </tr>
+                        <tr class="bottom_button">
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>Subtotal</h5>
+                            </td>
+                            <td>
+                                <h5>$2160.00</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>GST (18%)</h5>
+                            </td>
+                            <td>
+                                <h5>$2160.00</h5>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                <h5>Total</h5>
+                            </td>
+                            <td>
+                                <h5>$2160.00</h5>
+                            </td>
+                        </tr>
+                        <tr class="out_button_area text-right">
+                            <td colspan="4" class="checkout-btn">
+                                <div class="checkout_btn_inner">
+                                    <a class="primary-btn" href="#">Proceed to checkout</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<!--================ End Cart Area =================-->
+
+{%endblock%}
+
+{%block script%}
+
+{%endblock%}

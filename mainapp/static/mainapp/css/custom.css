@@ -1,0 +1,68 @@
+.cupon_area {
+  margin-bottom: 0px;
+  padding: 0px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px !important;
+  background-color: #fff;
+}
+.cupon_text_2 input {
+  width: 200px;
+  padding: 0px 15px;
+  border-radius: 3px;
+  border: 1px solid #b3afaf;
+  height: 40px;
+  font-size: 14px;
+  color: #1a1919;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+  margin: 0;
+  margin-right: -3px;
+  outline: none;
+  box-shadow: none;
+}
+
+.cupon_text_2 input.placeholder {
+  font-size: 14px;
+  color: #5e5353;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+}
+.cupon_text_2 input:-moz-placeholder {
+  font-size: 14px;
+  color: #5e5353;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+}
+
+.cupon_text_2 input::-webkit-input-placeholder {
+  font-size: 14px;
+  color: #5e5353;
+  font-family: "Roboto", sans-serif;
+  font-weight: normal;
+}
+
+.cupon_text_2 .primary-btn {
+  height: 40px;
+  line-height: 38px;
+  text-transform: uppercase;
+  padding: 0px 38px;
+  margin-left: 3px;
+  border-radius: 0;
+}
+
+.cart-icon {
+  font-size: 15px !important;
+}
+
+.checkout-btn {
+  padding-right: 0px !important;
+}
+
+.products_view {
+  margin-top: -30px !important;
+}
+
+.side_view {
+  margin-top: 0px !important;
+}

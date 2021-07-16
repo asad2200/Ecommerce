@@ -1,0 +1,21 @@
+{% static 'mainapp/' %}
+
+
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{%block title%}
+Category
+{%endblock%}
+
+{% block style %}
+
+{% endblock %}
+
+{%block body%}
+
+{%endblock%}
+
+{%block script%}
+
+{%endblock%}
