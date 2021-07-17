@@ -1,7 +1,7 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
 
-{%block title%}
+{% block title %}
 Category
 {%endblock%}
 
@@ -12,83 +12,102 @@ Category
 {%block body%}
 
 <div class="container">
-    <div class="mt-5 pt-5"></div>
-    <div class="mt-5"></div>
-    <div class="row">
-        <!-- Start side view -->
-        <div class="col-xl-3 col-lg-4 col-md-5">
-            <div class="sidebar-filter side_view">
-                <div class="top-filter-head">Filters</div>
-                <div class="common-filter mt-3">
-                    <form action="#">
-                        <ul>
-                            <li class="filter-list"><input class="pixel-radio" type="radio" id="name"
-                                    name="brand"><label for="name">Sort by Name</label></li>
-                            <li class="filter-list"><input class="pixel-radio" type="radio" id="price-hl"
-                                    name="brand"><label for="price-hl">Price: High - Low</label></li>
-                            <li class="filter-list"><input class="pixel-radio" type="radio" id="price-lh"
-                                    name="brand"><label for="price-lh">Price: Low - High</label></li>
-                        </ul>
-                    </form>
-                </div>
+  <div class="mt-5 pt-5"></div>
+  <div class="mt-5"></div>
+  <div class="row">
+    <!-- Start side view -->
+    <div class="col-xl-3 col-lg-4 col-md-5">
+      <div class="sidebar-filter side_view">
+        <div class="top-filter-head">Filters</div>
+        <div class="common-filter mt-3">
+          <h3 class="head">Sort</h3>
+          <form method="POST">
+            {% csrf_token %} {% if products %}
+            <input hidden type="text" name="brand_id" value="{{products.0.brand_id}}" />
+            {% endif %}
+            <ul>
+              <li class="filter-list">
+                <input class="pixel-radio" type="radio" id="a-z" value="a-z" name="sort" />
+                <label for="a-z">Name: A - Z</label>
+              </li>
+              <li class="filter-list">
+                <input class="pixel-radio" type="radio" id="z-a" value="z-a" name="sort" />
+                <label for="z-a">Name: Z - A</label>
+              </li>
+              <li class="filter-list">
+                <input class="pixel-radio" type="radio" id="price-hl" value="price-hl" name="sort" />
+                <label for="price-hl">Price: High - Low</label>
+              </li>
+              <li class="filter-list">
+                <input class="pixel-radio" type="radio" id="price-lh" value="price-lh" name="sort" />
+                <label for="price-lh">Price: Low - High</label>
+              </li>
+            </ul>
+            <div class="cupon_text_2 d-flex justify-content-center">
+              <button type="submit" value="Submit" class="primary-btn">
+                Apply
+              </button>
             </div>
-            <div class="sidebar-categories">
-                <div class="head">Categorys</div>
-                <ul class="main-categories">
-                    {% for brand in object_list %}
-                    <li class="main-nav-list">
-                        <form id="my_form_{{brand.brand.id}}" method="POST">
-                            {% csrf_token %}
-                            <input hidden type="text" name="brand_id" value="{{brand.brand.id}}" />
-                            <a href="javascript:{}"
-                                onclick="document.getElementById('my_form_{{brand.brand.id}}').submit();"><span
-                                    class="lnr lnr-arrow-right"></span>{{brand.brand.name}}
-                                ({{brand.products}})</a>
-                        </form>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </div>
+          </form>
         </div>
-        <!-- End side view -->
-
-        <!-- Start main view -->
-        <div class="col-xl-9 col-lg-8 col-md-7 products_view">
-            <!-- Start product view -->
-            <section class="lattest-product-area pb-40 category-list ">
-                <div class="row ">
-                    <!-- single product -->
-                    {% for product in products %}
-                    <div class="col-lg-4 col-md-6">
-                        <div class="single-product">
-                            <img class="img-fluid" src="{{product.img.url}}" alt="{{product.name}}" />
-                            <div class="product-details">
-                                <h6>{{product.name}}</h6>
-                                <div class="price">
-                                    <h6>${{product.price}}</h6>
-
-                                </div>
-                                <div class="prd-bottom">
-                                    <a href="" class="social-info">
-                                        <span class="ti-bag"></span>
-                                        <p class="hover-text">add to bag</p>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </section>
-            <!-- End product view -->
-        </div>
-        <!-- End main view -->
+      </div>
+      <div class="sidebar-categories">
+        <div class="head">Categorys</div>
+        <ul class="main-categories">
+          {% for brand in object_list %}
+          <li class="main-nav-list">
+            <form id="my_form_{{brand.brand.id}}" method="POST">
+              {% csrf_token %}
+              <input hidden type="text" name="brand_id" value="{{brand.brand.id}}" />
+              <a href="javascript:{}" onclick="document.getElementById('my_form_{{brand.brand.id}}').submit();"><span
+                  class="lnr lnr-arrow-right"></span>{{brand.brand.name}}
+                ({{brand.products}})</a>
+            </form>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
     </div>
+    <!-- End side view -->
+
+    <!-- Start main view -->
+    <div class="col-xl-9 col-lg-8 col-md-7 products_view">
+      <!-- Start product view -->
+      <section class="lattest-product-area pb-40 category-list">
+        <div class="row">
+          <!-- single product -->
+          {% for product in products %}
+          <div class="col-lg-4 col-md-6">
+            <div class="single-product">
+              <img class="img-fluid product-img" src="{{product.img.url}}" alt="{{product.name}}" />
+              <div class="product-details">
+                <h6>{{product.name}}</h6>
+                <h6 class="text-secondary">{{product.brand}}</h6>
+                <div class="price">
+                  <h6>${{product.price}}</h6>
+                </div>
+                <div class="prd-bottom">
+                  <a href="" class="social-info">
+                    <span class="ti-bag"></span>
+                    <p class="hover-text">add to bag</p>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      <!-- End product view -->
+    </div>
+    <!-- End main view -->
+  </div>
 </div>
 
-{%endblock%}
-
-{%block script%}
-
+{%endblock%} {%block script%}
+<script>
+  {% if sort %}
+  document.getElementById("{{sort}}").checked = true
+  {% endif %}
+</script>
 {%endblock%}

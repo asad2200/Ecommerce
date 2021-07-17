@@ -66,3 +66,8 @@
 .side_view {
   margin-top: 0px !important;
 }
+
+.product-img {
+  min-width: 254.984px;
+  min-height: 272.5px;
+}

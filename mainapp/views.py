@@ -1,6 +1,6 @@
-from django.http import request
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
+from django.db.models import Q
 from .models import Product, Brand
 
 
@@ -39,13 +39,63 @@ class Category(ListView):
         return context
 
     def post(self, request, *args, **kwargs):
-        brand_id = request.POST.get("brand_id")
-        products = Product.objects.filter(brand_id=brand_id)
         context = self.get_context_data(*args, **kwargs)
+
+        brand_id = request.POST.get("brand_id")
+        if request.POST.get("sort"):
+            sort = request.POST.get("sort")
+            context["sort"] = sort
+            if sort == "a-z":
+                products = Product.objects.filter(brand_id=brand_id).order_by("name")
+            elif sort == "z-a":
+                products = Product.objects.filter(brand_id=brand_id).order_by("-name")
+            elif sort == "price-hl":
+                products = Product.objects.filter(brand_id=brand_id).order_by("-price")
+            else:
+                products = Product.objects.filter(brand_id=brand_id).order_by("price")
+        else:
+            products = Product.objects.filter(brand_id=brand_id)
         context["products"] = products
         return self.render_to_response(context)
 
     template_name = "mainapp/category.html"
+
+
+class AllProducts(ListView):
+    model = Product
+    context_object_name = "search"
+
+    def get_context_data(self, *args, **kwargs):
+        queryset = kwargs.pop("object_list", None)
+        if queryset is None:
+            self.object_list = self.get_queryset(*args, **kwargs)
+        return super().get_context_data(**kwargs)
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(*args, **kwargs)
+        products = self.get_queryset(*args, **kwargs)
+
+        if request.GET.get("q"):
+            search = request.GET.get("q")
+            products = Product.objects.filter(name__icontains=search)
+            products2 = Product.objects.filter(brand__name__icontains=search)
+            products = products | products2
+        if request.GET.get("sort"):
+            sort = request.GET.get("sort")
+            context["sort"] = sort
+            if sort == "a-z":
+                products = products.order_by("name")
+            elif sort == "z-a":
+                products = products.order_by("-name")
+            elif sort == "price-hl":
+                products = products.order_by("-price")
+            else:
+                products = products.order_by("price")
+
+        context["products"] = products
+        return self.render_to_response(context)
+
+    template_name = "mainapp/all-products.html"
 
 
 def cart(request):
@@ -54,10 +104,6 @@ def cart(request):
 
 def product(request):
     return render(request, "mainapp/product.html")
-
-
-def all_products(request):
-    return render(request, "mainapp/all-products.html")
 
 
 def login(request):
