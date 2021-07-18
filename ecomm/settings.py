@@ -10,7 +10,6 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
-import credentials
 from pathlib import Path
 import os
 
@@ -137,9 +136,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_URL = '/login/'
 
+# EMAIL CONF
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = credentials.EMAIL_ID  # Enter Your email id
-EMAIL_HOST_PASSWORD = credentials.EMAIL_ID_PASSWORD  # Enter Your email id password
+EMAIL_HOST_USER = 'asadjakhavala9292@gmail.com'
+EMAIL_HOST_PASSWORD = 'boyxualjtqxbfcjr'
+
+# CELERY CONF
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
