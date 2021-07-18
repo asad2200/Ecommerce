@@ -56,7 +56,7 @@ def creating_order(user_id, email):
         recipient_list = [email, ]
         send_mail(subject, plain_message, email_from,
                   recipient_list, html_message=html_message, fail_silently=True)
-        return total_amount
+        return None
     except:
         subject = 'Karma Shop - Order Confirmation'
         email_from = settings.EMAIL_HOST_USER
