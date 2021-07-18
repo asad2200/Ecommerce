@@ -27,7 +27,10 @@
                   <a class="nav-link" href="/all-products/">All Products</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/category/">Shop By Brand</a>
+                  <a class="nav-link" href="/item-category/">Shop By Category</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/brand-category/">Shop By Brand</a>
                 </li>
               </ul>
             </li>
@@ -41,7 +44,7 @@
               <a href="#" class="nav-link">Contact</a>
             </li>
             <li class="nav-item">
-              <a href="/cart/" class="nav-link cart-icon"><span class="ti-bag"></span></a>
+              <a href="/cart-view/" class="nav-link cart-icon"><span class="ti-bag"></span></a>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -51,9 +54,22 @@
                 <span class="lnr lnr-magnifier cart-icon" id="search"></span>
               </button>
             </li>
+            {% if not request.user.is_authenticated %}
             <li class="nav-item d-flex align-items-center">
               <a href="/login/" class="nav-link">LogIn</a>
             </li>
+            {% else %}
+            <li class="nav-item submenu dropdown d-flex align-items-center">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <img alt="Image placeholder" class="avatar" src="{% static 'mainapp/img/avatar.png' %}">
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="{% url 'profile-view' %}">Profile</a>
+                <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+              </div>
+            </li>
+            {% endif %}
           </ul>
         </div>
       </div>

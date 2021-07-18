@@ -6,13 +6,32 @@ Register
 {%endblock%}
 
 {% block style %}
-
+<style>
+    .text-error {
+        color: red
+    }
+</style>
 {% endblock %}
 
 {%block body%}
 <div class="container mt-5 pt-5 mb-5">
     <h3 class="mb-3 mt-5">Register</h3>
-    <form action="#">
+    {% if messages %}
+    {% for message in messages %}
+    <li {% if message.tags %} class="text-{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mt-2">
+            <input type="text" name="username" placeholder="username" required class="single-input-primary">
+        </div>
+        <div class="mt-2">
+            <input type="password" name="password" placeholder="password" required class="single-input-primary">
+        </div>
+        <div class="mt-2">
+            <input type="email" name="email" placeholder="Email" class="single-input-primary" />
+        </div>
         <div class="mt-2">
             <input type="text" name="first_name" placeholder="First Name" required class="single-input-primary">
         </div>
@@ -20,20 +39,16 @@ Register
             <input type="text" name="last_name" placeholder="Last Name" required class="single-input-primary">
         </div>
         <div class="mt-2">
-            <input type="email" name="email" placeholder="Email" class="single-input-primary" />
+            <input type="tel" name="mobile1" placeholder="Mobile Number" required class="single-input-primary" />
         </div>
         <div class="mt-2">
-            <input type="text" name="mobile1" placeholder="Mobile Number" required class="single-input-primary" />
-        </div>
-        <div class="mt-2">
-            <input type="text" name="mobile2" placeholder="Alternate Mobile Number" required
-                class="single-input-primary" />
+            <input type="tel" name="mobile2" placeholder="Alternate Mobile Number" class="single-input-primary" />
         </div>
         <div class="mt-2">
             <input type="text" name="address1" placeholder="Address Line 1" required class="single-input-primary" />
         </div>
         <div class="mt-2">
-            <input type="text" name="address2" placeholder="Address Line 2" required class="single-input-primary" />
+            <input type="text" name="address2" placeholder="Address Line 2" class="single-input-primary" />
         </div>
         <div class="mt-2">
             <input type="text" name="country" placeholder="Country" required class="single-input-primary" />

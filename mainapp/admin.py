@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import (
+    Category,
     Profile,
     ShippingAddress,
     Brand,
@@ -11,6 +12,8 @@ from .models import (
 )
 
 # Register your models here.
+
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ("user_id", "mobile_no1")
@@ -35,12 +38,21 @@ class BrandAdmin(admin.ModelAdmin):
     )
 
 
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+    )
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         "id",
         "name",
         "brand",
+        "category",
         "qty",
         "img",
         "price",
@@ -54,6 +66,8 @@ admin.site.register(Cart)
 class CartItemAdmin(admin.ModelAdmin):
     list_display = (
         "id",
+        "cart_id",
+        "product_id",
         "qty",
     )
 

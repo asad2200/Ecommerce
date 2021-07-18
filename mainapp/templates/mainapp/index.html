@@ -25,15 +25,17 @@ Home
           <div class="single-product">
             <img class="img-fluid product-img" src="{{product.img.url}}" alt="">
             <div class="product-details">
-              <h6>{{product.name}}</h6>
+              <a href="{% url 'product' id=product.id%}" class="product-link">
+                <h6>{{product.name}}</h6>
+              </a>
               <div class="price">
                 <h6>${{product.price}}</h6>
               </div>
               <div class="prd-bottom">
-                <a href="" class="social-info">
+                <div class="social-info" onclick="addToCart('{{product.id}}')">
                   <span class="ti-bag"></span>
                   <p class="hover-text">add to bag</p>
-                </a>
+                </div>
               </div>
             </div>
           </div>
@@ -46,16 +48,31 @@ Home
 <!-- end product Area -->
 
 <!-- start coupan code Area -->
-<div class="cupon_area container fixed-bottom mb-1 p-1 ">
-  <div class="cupon_text_2 input-group justify-content-end">
+<div class="cupon_area container fixed-bottom mb-1 p-1 alert alert-danger alert-dismissible fade show" role="alert">
+  <div class="cupon_text_2 input-group justify-content-start">
     <input type="text" placeholder="Coupon Code">
     <a class="primary-btn" href="#">Apply</a>
   </div>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
 </div>
 <!-- end coupan code Area -->
 
 {%endblock%}
 
 {%block script%}
-
+<script>
+  function addToCart(id) {
+    fetch("{% url 'cart-add' id=1234 %}".replace(/1234/, id.toString()))
+      .then(response => {
+        return response.json();
+      }).then(data => {
+        if (data.login)
+          window.location.replace("/login/");
+        else
+          alert(data.success)
+      })
+  }
+</script>
 {%endblock%}

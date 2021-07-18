@@ -1,0 +1,83 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{%block title%}
+Profile
+{%endblock%}
+
+{% block style %}
+
+{% endblock %}
+
+{%block body%}
+<div class="container">
+    <div class="mt-5 pt-5"></div>
+    <div class="mt-5 "></div>
+    <div class="card">
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                Username :
+            </h5>
+            <div class="d-inline profile-text">{{user.username}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                email :
+            </h5>
+            <div class="d-inline profile-text">{{user.email}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                first_name :
+            </h5>
+            <div class="d-inline profile-text">{{user.first_name}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                last_name :
+            </h5>
+            <div class="d-inline profile-text">{{user.last_name}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                mobile_no :
+            </h5>
+            <div class="d-inline profile-text">{{profile.mobile_no1}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                Address :
+            </h5>
+            <div class="d-inline profile-text">{{shipping_addr.address_1}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                Country :
+            </h5>
+            <div class="d-inline profile-text">{{shipping_addr.country}},&nbsp;&nbsp;&nbsp;</div>
+            <h5 class="d-inline">
+                State :
+            </h5>
+            <div class="d-inline profile-text">{{shipping_addr.state}},</div>
+
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <h5 class="d-inline">
+                City :
+            </h5>
+            <div class="d-inline profile-text">{{shipping_addr.city}},&nbsp;&nbsp;&nbsp;</div>
+            <h5 class="d-inline">
+                Zip Code :
+            </h5>
+            <div class="d-inline profile-text">{{shipping_addr.zipcode}}</div>
+        </div>
+        <div class="ml-5 border-bottom mr-5 p-2">
+            <a href="{% url 'profile-edit' %}" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{%endblock%}
+
+{%block script%}
+
+{%endblock%}

@@ -1,5 +1,19 @@
-{% extends 'mainapp/base.html' %} {% load static %} {%block title%} Login
-{%endblock%} {% block style %} {% endblock %} {%block body%}
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{%block title%}
+Login
+{%endblock%}
+
+{% block style %}
+<style>
+  .text-error {
+    color: red;
+  }
+</style>
+{% endblock %}
+
+{%block body%}
 <!-- Start Login Box Area  -->
 <section class="login_box_area section_gap">
   <div class="mt-5 pt-5"></div>
@@ -7,11 +21,7 @@
     <div class="row">
       <div class="col-lg-6">
         <div class="login_box_img">
-          <img
-            class="img-fluid"
-            src="{% static 'mainapp/img/login.jpg' %}"
-            alt=""
-          />
+          <img class="img-fluid" src="{% static 'mainapp/img/login.jpg' %}" alt="" />
           <div class="hover">
             <h4>New to our website?</h4>
             <a class="primary-btn" href="/register/">Create an Account</a>
@@ -20,35 +30,21 @@
       </div>
       <div class="col-lg-6">
         <div class="login_form_inner">
+          {% if messages %}
+          {% for message in messages %}
+          <li {% if message.tags %} class="text-{{ message.tags }}" {% endif %}>{{ message }}</li>
+          {% endfor %}
+          {% endif %}
           <h3>Log in to enter</h3>
-          <form
-            class="row login_form"
-            action="contact_process.php"
-            method="post"
-            id="contactForm"
-            novalidate="novalidate"
-          >
+          <form class="row login_form" method="POST" id="contactForm">
+            {% csrf_token %}
             <div class="col-md-12 form-group">
-              <input
-                type="text"
-                class="form-control"
-                id="name"
-                name="name"
-                placeholder="Username"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Username'"
-              />
+              <input type="text" class="form-control" id="name" name="username" placeholder="Username"
+                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'" />
             </div>
             <div class="col-md-12 form-group">
-              <input
-                type="password"
-                class="form-control"
-                id="name"
-                name="name"
-                placeholder="Password"
-                onfocus="this.placeholder = ''"
-                onblur="this.placeholder = 'Password'"
-              />
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'" />
             </div>
             <div class="col-md-12 form-group mt-3">
               <button type="submit" value="submit" class="primary-btn">

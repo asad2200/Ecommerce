@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-Category
+Brand-Category
 {%endblock%}
 
 {% block style %}
@@ -81,16 +81,18 @@ Category
             <div class="single-product">
               <img class="img-fluid product-img" src="{{product.img.url}}" alt="{{product.name}}" />
               <div class="product-details">
-                <h6>{{product.name}}</h6>
+                <a href="{% url 'product' id=product.id%}" class="product-link">
+                  <h6>{{product.name}}</h6>
+                </a>
                 <h6 class="text-secondary">{{product.brand}}</h6>
                 <div class="price">
                   <h6>${{product.price}}</h6>
                 </div>
                 <div class="prd-bottom">
-                  <a href="" class="social-info">
+                  <div class="social-info" onclick="addToCart('{{product.id}}')">
                     <span class="ti-bag"></span>
                     <p class="hover-text">add to bag</p>
-                  </a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -106,6 +108,17 @@ Category
 
 {%endblock%} {%block script%}
 <script>
+  function addToCart(id) {
+    fetch("{% url 'cart-add' id=1234 %}".replace(/1234/, id.toString()))
+      .then(response => {
+        return response.json();
+      }).then(data => {
+        if (data.login)
+          window.location.replace("/login/");
+        else
+          alert(data.success)
+      })
+  }
   {% if sort %}
   document.getElementById("{{sort}}").checked = true
   {% endif %}

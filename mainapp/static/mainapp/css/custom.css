@@ -71,3 +71,45 @@
   min-width: 254.984px;
   min-height: 272.5px;
 }
+
+.product-link h6 {
+  text-decoration: underline;
+  color: #ff6c00;
+  /* background-image: -webkit-linear-gradient(
+    90deg,
+    #ffba00 0%,
+    #ff6c00 100%
+  ) !important;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+}
+.product-link h6:hover {
+  background-image: -webkit-linear-gradient(
+    90deg,
+    #ffba00 0%,
+    #ff6c00 100%
+  ) !important;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.profile-menu {
+  color: green;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.profile-text {
+  color: #5e5353 !important;
+  font: 16px Poppins;
+}
+
+.social-info :hover {
+  cursor: pointer;
+}

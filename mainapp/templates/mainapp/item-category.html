@@ -1,5 +1,16 @@
-{% extends 'mainapp/base.html' %} {% load static %} {%block title%} Products
-{%endblock%} {% block style %} {% endblock %} {%block body%}
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+{% block title %}
+Item-Category
+{%endblock%}
+
+{% block style %}
+
+{% endblock %}
+
+{%block body%}
+
 <div class="container">
     <div class="mt-5 pt-5"></div>
     <div class="mt-5"></div>
@@ -10,8 +21,10 @@
                 <div class="top-filter-head">Filters</div>
                 <div class="common-filter mt-3">
                     <h3 class="head">Sort</h3>
-                    <form method="GET">
-                        <input hidden type="text" id="q" name=q />
+                    <form method="POST">
+                        {% csrf_token %} {% if products %}
+                        <input hidden type="text" name="category_id" value="{{products.0.category_id}}" />
+                        {% endif %}
                         <ul>
                             <li class="filter-list">
                                 <input class="pixel-radio" type="radio" id="a-z" value="a-z" name="sort" />
@@ -37,6 +50,22 @@
                         </div>
                     </form>
                 </div>
+            </div>
+            <div class="sidebar-categories">
+                <div class="head">Categorys</div>
+                <ul class="main-categories">
+                    {% for category in object_list %}
+                    <li class="main-nav-list">
+                        <form id="my_form_{{category.category.id}}" method="POST">
+                            {% csrf_token %}
+                            <input hidden type="text" name="category_id" value="{{category.category.id}}" />
+                            <a href="javascript:{}"
+                                onclick="document.getElementById('my_form_{{category.category.id}}').submit();"><span
+                                    class="lnr lnr-arrow-right"></span>{{category.category.name}}({{category.products}})</a>
+                        </form>
+                    </li>
+                    {% endfor %}
+                </ul>
             </div>
         </div>
         <!-- End side view -->
@@ -73,11 +102,11 @@
             </section>
             <!-- End product view -->
         </div>
-        <!-- End side view -->
+        <!-- End main view -->
     </div>
 </div>
-{%endblock%}
-{%block script%}
+
+{%endblock%} {%block script%}
 <script>
     function addToCart(id) {
         fetch("{% url 'cart-add' id=1234 %}".replace(/1234/, id.toString()))
@@ -90,11 +119,6 @@
                     alert(data.success)
             })
     }
-
-    var url_string = window.location.href
-    var url = new URL(url_string);
-    var c = url.searchParams.get("q");
-    document.getElementById("q").value = c
     {% if sort %}
     document.getElementById("{{sort}}").checked = true
     {% endif %}

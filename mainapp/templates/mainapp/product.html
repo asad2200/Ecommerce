@@ -19,25 +19,22 @@ Product
             <div class="col-lg-6">
                 <div class="s_Product_carousel">
                     <div class="single-prd-item">
-                        <img class="img-fluid" src="{% static 'mainapp/img/category/s-p1.jpg' %}" alt="">
+                        <img class="img-fluid" width="540" height="583.78" src="{{product.img.url}}" alt="">
                     </div>
                 </div>
             </div>
             <div class="col-lg-5 offset-lg-1">
                 <div class="s_product_text">
-                    <h3>Faded SkyBlu Denim Jeans</h3>
-                    <h2>$149.99</h2>
+                    <h3>{{product.name}}</h3>
+                    <h2>${{product.price}}</h2>
                     <ul class="list">
-                        <li><span>Brand : Amazon</span></li>
+                        <li><span>Brand : {{product.brand}}</span></li>
+                        <li><span>Category : {{product.category}}</span></li>
                     </ul>
-                    <p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are
-                        looking for
-                        something that can make your interior look awesome, and at the same time give you the
-                        pleasant warm feeling
-                        during the winter.</p>
-
+                    <p>{{product.description}}</p>
+                    {{request.path}}
                     <div class="card_area d-flex align-items-center">
-                        <a class="primary-btn" href="#">Add to Cart</a>
+                        <button class="primary-btn" onclick="addToCart('{{product.id}}')">Add to Cart</button>
                     </div>
                 </div>
             </div>
@@ -58,42 +55,19 @@ Product
         </div>
         <div class="container">
             <div class=" row">
+                {% for product in similar_product %}
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
                     <div class="single-related-product d-flex">
-                        <a href="#"><img src="{% static 'mainapp/img/r1.jpg' %}" alt=""></a>
+                        <a href="#"><img width="70" height="70" src="{{product.img.url}}" alt=""></a>
                         <div class="desc">
-                            <a href="#" class="title">Black lace Heels</a>
+                            <a href="{% url 'product' id=product.id %}" class="title">{{product.name}}</a>
                             <div class="price">
-                                <h6>$189.00</h6>
-                                <h6 class="l-through">$210.00</h6>
+                                <h6>${{product.price}}</h6>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                    <div class="single-related-product d-flex">
-                        <a href="#"><img src="{% static 'mainapp/img/r2.jpg' %}" alt=""></a>
-                        <div class="desc">
-                            <a href="#" class="title">Black lace Heels</a>
-                            <div class="price">
-                                <h6>$189.00</h6>
-                                <h6 class="l-through">$210.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
-                    <div class="single-related-product d-flex">
-                        <a href="#"><img src="{% static 'mainapp/img/r3.jpg' %}" alt=""></a>
-                        <div class="desc">
-                            <a href="#" class="title">Black lace Heels</a>
-                            <div class="price">
-                                <h6>$189.00</h6>
-                                <h6 class="l-through">$210.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </div>
@@ -103,5 +77,15 @@ Product
 {%endblock%}
 
 {%block script%}
-
+<script>
+    function addToCart(id) {
+        console.log(id)
+        fetch("{% url 'cart-add' id=1234 %}".replace(/1234/, id.toString()))
+            .then(response => {
+                return response.json();
+            }).then(data => {
+                alert(data.success)
+            })
+    }
+</script>
 {%endblock%}
