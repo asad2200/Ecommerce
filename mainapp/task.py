@@ -7,12 +7,6 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
 
-def msg(context):
-    '''
-
-    '''
-
-
 @shared_task
 def creating_order(user_id, email):
     user = User.objects.get(id=user_id)
