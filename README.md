@@ -10,5 +10,5 @@
 2. [optional] activate virtual enviornment
 3. Download or clone this project
 4. Go to project directory and run ` pip install -r requirments.txt`
-5. start the celery worker using `celery -A ecomm -l INFO`
+5. start the celery worker using `celery -A ecomm worker -l INFO`
 6. start django server `python manage.py runserver`
