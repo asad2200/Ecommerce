@@ -70,6 +70,8 @@ Home
       }).then(data => {
         if (data.login)
           window.location.replace("/login/");
+        else if (data.error)
+          confirm(data.error)
         else
           alert(data.success)
       })

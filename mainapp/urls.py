@@ -16,4 +16,5 @@ urlpatterns = [
     path("profile-edit/", views.ProfileEdit.as_view(), name="profile-edit"),
     path("cart-view/", views.cart_view, name="cart-view"),
     path("cart-add/<int:id>", views.CartAdd.as_view(), name="cart-add"),
+    path("checkout/", views.checkout, name="checkout"),
 ]

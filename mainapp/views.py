@@ -1,3 +1,4 @@
+import sys
 from django.http.response import HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
@@ -7,9 +8,12 @@ from django.contrib.auth import authenticate, login as auth_login, logout as aut
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from .models import Category, Product, Brand, ShippingAddress, Profile, Cart, CartItem
+from .models import Category, Product, Brand, ShippingAddress, Profile, Cart, CartItem, Order, OrderItem
 from .forms import ProfileForm
-from .forms import ProfileForm
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 # Create your views here.
 
@@ -351,6 +355,7 @@ class ProfileEdit(FormView):
 
 
 # ----------------- Cart View -----------------
+@login_required(login_url="login")
 def cart_view(request):
     context = {}
     try:
@@ -363,11 +368,79 @@ def cart_view(request):
 
 
 # ----------------- Cart View -----------------
-# @method_decorator(login_required, name=CartAdd)
 class CartAdd(FormView):
     def get(self, request, *args, **kwargs):
         try:
             User.objects.get(id=request.user.id)
+        except User.DoesNotExist:
+            return JsonResponse({'login': "Login is required"}, safe=True)
+        try:
+            cart, created = Cart.objects.get_or_create(user=request.user)
+            cart.save()
+            product = Product.objects.get(id=kwargs.get("id"))
+            cart_item, created = CartItem.objects.get_or_create(
+                cart=cart, product=product)
+            cart_item.qty += 1
+            cart_item.save()
         except:
-            return JsonResponse({'login': True}, safe=True)
+            print("Unexpected error:", sys.exc_info()[0])
+            return JsonResponse({'error': "Unexpected error occured !! try again.."}, safe=True)
         return JsonResponse({'success': 'Product added in cart succesfully'}, safe=True)
+
+
+# ----------------- Cart View -----------------
+@login_required(login_url="login")
+def checkout(request):
+    try:
+        cart = Cart.objects.get(user=request.user)
+        cart_items = CartItem.objects.filter(cart=cart)[0]
+    except:
+        return render(request, "mainapp/order-confirm.html")
+    try:
+        cart = Cart.objects.get(user=request.user)
+        cart_items = CartItem.objects.filter(cart=cart)
+        order = Order.objects.create(user=request.user)
+        total_amount = 0
+        for item in cart_items:
+            product = Product.objects.get(id=item.product.id)
+            if product.qty >= item.qty:
+                amount = item.qty*product.price
+                total_amount += amount
+                OrderItem.objects.create(
+                    order=order, product=product, qty=item.qty, amount=amount)
+                product.qty = product.qty - item.qty
+                product.save()
+                item.delete()
+            elif product.qty > 0:
+                amount = (product.qty*product.price)
+                total_amount += amount
+                OrderItem.objects.create(
+                    order=order, product=product, qty=product.qty, amount=amount)
+                item.qty = item.qty - product.qty
+                item.save()
+                product.qty = 0
+                product.save()
+        order.amount = total_amount + (total_amount * .018)
+        order.save()
+        order = Order.objects.get(id=order.id)
+        order_items = OrderItem.objects.filter(order=order)
+        cart_items = CartItem.objects.filter(cart=cart)
+        context = {
+            'user': request.user,
+            'order': order,
+            'order_items': order_items,
+            'cart_items': cart_items,
+        }
+
+        # Sending mail
+        subject = 'Karma Shop - Order Confirmation'
+        html_message = render_to_string("mainapp/order-confirm.html", context)
+        plain_message = strip_tags(html_message)
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [request.user.email, ]
+        send_mail(subject, plain_message, email_from,
+                  recipient_list, html_message=html_message)
+
+        return render(request, "mainapp/order-confirm.html", context)
+    except (Cart.DoesNotExist, CartItem.DoesNotExist):
+        return HttpResponse("Some Error in Checkout. <a href={% url 'index' %}>Home Page</a>")

@@ -67,7 +67,7 @@ class CartItem(models.Model):
 
     cart = models.ForeignKey(to=Cart, on_delete=models.CASCADE)
     product = models.ForeignKey(to=Product, on_delete=models.CASCADE)
-    qty = models.IntegerField()
+    qty = models.IntegerField(default=0)
 
     def __str__(self) -> str:
         return str(self.cart) + " " + str(self.product)
@@ -77,8 +77,8 @@ class Order(models.Model):
     user = models.ForeignKey(
         to=User, on_delete=models.SET_NULL, null=True, blank=True
     )
-    total_items = models.IntegerField()
-    amount = models.FloatField()
+    order_date = models.DateTimeField(auto_now_add=True)
+    amount = models.FloatField(default=0.0)
 
     def __str__(self) -> str:
         return str(self.user_id)

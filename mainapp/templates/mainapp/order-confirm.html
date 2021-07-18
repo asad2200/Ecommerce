@@ -1,0 +1,82 @@
+{% load mathfilters %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <title>Order-Confirm</title>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center">- Karma Shop -</h3>
+        <h4 class="text-center">Order Confirmation</h4>
+        <div class="card p-5 pt-2 pb-2">
+            <h5>Name : {{user.first_name}}</h5>
+            <h5>Order Date : {{order.order_date}}</h5>
+            <h5>Total Amount To Pay (with GST ) : {{order.amount}}</h5>
+        </div>
+        <h5 class="t-3 text-center">Order Summery :</h5>
+        {% if order_items.0 %}
+        <div class="m-3">
+            <li>Items Delivered :</li>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_items %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{item.product.name}}</td>
+                        <td>{{item.qty}}</td>
+                        <td>{{item.amount}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% if cart_items.0 %}
+        <div class="m-3 mt-4">
+            <li>Items Not Delivered :</li>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Qty</th>
+                        <th scope="col">Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <th scope="row">{{forloop.counter}}</th>
+                        <td>{{item.product.name}}</td>
+                        <td>{{item.qty}}</td>
+                        <td>{{item.qty|mul:item.product.price}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        <a href="{% url 'index' %}">Home Page</a>
+    </div>
+</body>
+
+</html>

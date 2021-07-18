@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load mathfilters %}
 
 {%block title%}
 Cart-View
@@ -26,83 +27,41 @@ Cart-View
                         </tr>
                     </thead>
                     <tbody>
+                        {% for item in cart_items %}
                         <tr>
                             <td>
                                 <div class="media">
                                     <div class="d-flex">
-                                        <img src="{% static 'mainapp/img/cart.jpg' %}" alt="" />
+                                        <img width="152px" height="152px" src="{{item.product.img.url}}" alt="" />
                                     </div>
                                     <div class="media-body">
-                                        <p>Minimalistic shop for multipurpose use</p>
+                                        <a href="{% url 'product' id=item.product.id %}">{{item.product.name}}</p>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <h5>$360.00</h5>
+                                <h5>${{item.product.price}}</h5>
                             </td>
                             <td>
                                 <div class="product_count">
-                                    <input disabled type="text" name="qty" value="1" class="input-text qty" />
+                                    <input disabled type="text" name="qty" value="{{item.qty}}"
+                                        class="input-text qty" />
                                 </div>
                             </td>
                             <td>
-                                <h5>$720.00</h5>
+                                <h5 id="total_price_{{forloop.counter}}">${{item.product.price|mul:item.qty}}</h5>
                             </td>
+
                         </tr>
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{% static 'mainapp/img/cart.jpg' %}" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <p>Minimalistic shop for multipurpose use</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$360.00</h5>
-                            </td>
-                            <td>
-                                <div class="product_count">
-                                    <input disabled type="text" name="qty" value="1" class="input-text qty" />
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$720.00</h5>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <div class="d-flex">
-                                        <img src="{% static 'mainapp/img/cart.jpg' %}" alt="" />
-                                    </div>
-                                    <div class="media-body">
-                                        <p>Minimalistic shop for multipurpose use</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$360.00</h5>
-                            </td>
-                            <td>
-                                <div class="product_count">
-                                    <input disabled type="text" name="qty" value="1" class="input-text qty" />
-                                </div>
-                            </td>
-                            <td>
-                                <h5>$720.00</h5>
-                            </td>
-                        </tr>
-                        <tr class="bottom_button">
+                        {% endfor %}
+                        <tr class=" bottom_button">
                             <td></td>
                             <td></td>
                             <td>
                                 <h5>Subtotal</h5>
                             </td>
                             <td>
-                                <h5>$2160.00</h5>
+                                <h5 id="subTotal">$00.00</h5>
                             </td>
                         </tr>
                         <tr>
@@ -112,7 +71,7 @@ Cart-View
                                 <h5>GST (18%)</h5>
                             </td>
                             <td>
-                                <h5>$2160.00</h5>
+                                <h5 id="gst">$00.00</h5>
                             </td>
                         </tr>
                         <tr>
@@ -122,16 +81,18 @@ Cart-View
                                 <h5>Total</h5>
                             </td>
                             <td>
-                                <h5>$2160.00</h5>
+                                <h5 id="total">$00.00</h5>
                             </td>
                         </tr>
+                        {% if cart_items.0 %}
                         <tr class="out_button_area text-right">
                             <td colspan="4" class="checkout-btn">
                                 <div class="checkout_btn_inner">
-                                    <a class="primary-btn" href="#">Proceed to checkout</a>
+                                    <a class="primary-btn" href="{% url 'checkout' %}">Proceed to checkout</a>
                                 </div>
                             </td>
                         </tr>
+                        {% endif %}
                     </tbody>
                 </table>
             </div>
@@ -143,5 +104,24 @@ Cart-View
 {%endblock%}
 
 {%block script%}
-
+<script>
+    {% if cart_items.0 %}
+    window.onload = (event) => {
+        cart_item_length = {{ cart_items | length }};
+        var subTotal=0.0
+        console.log(cart_item_length)
+        for(var i=1;i<=cart_item_length;i++) {
+            var price = document.getElementById(`total_price_${i}`).innerText
+            price = parseFloat(price.substring(1))
+            subTotal += price
+            console.log(subTotal)
+        }
+        document.getElementById(`subTotal`).innerText = `$${subTotal}`
+        var gst = subTotal * 0.18
+        document.getElementById(`gst`).innerText = `$${gst}`
+        var total = subTotal + gst
+        document.getElementById(`total`).innerText = `$${total}`
+    };
+    {% endif %}
+</script>
 {%endblock%}

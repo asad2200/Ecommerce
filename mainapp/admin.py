@@ -16,12 +16,13 @@ from .models import (
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "mobile_no1")
+    list_display = ("id", "user_id", "mobile_no1")
 
 
 @admin.register(ShippingAddress)
 class ShippingAddressAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "address_1",
         "country",
         "state",
@@ -75,8 +76,9 @@ class CartItemAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "user_id",
-        "total_items",
+        "order_date",
         "amount",
     )
 
