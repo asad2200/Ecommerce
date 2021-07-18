@@ -19,22 +19,23 @@ def creating_order(user_id, email):
             product = Product.objects.get(id=item.product.id)
             if product.qty >= item.qty:
                 amount = item.qty*product.price
-                total_amount += amount
+                total_amount = total_amount + amount
                 OrderItem.objects.create(
                     order=order, product=product, qty=item.qty, amount=amount)
                 product.qty = product.qty - item.qty
                 product.save()
                 item.delete()
             elif product.qty > 0:
-                amount = (product.qty*product.price)
-                total_amount += amount
+                amount = product.qty * product.price
+                total_amount = total_amount + amount
                 OrderItem.objects.create(
                     order=order, product=product, qty=product.qty, amount=amount)
                 item.qty = item.qty - product.qty
                 item.save()
                 product.qty = 0
                 product.save()
-        order.amount = total_amount + (total_amount * .018)
+        total_amount = total_amount + (total_amount * .18)
+        order.amount = total_amount
         order.save()
         order = Order.objects.get(id=order.id)
         order_items = OrderItem.objects.filter(order=order)
@@ -55,9 +56,7 @@ def creating_order(user_id, email):
         recipient_list = [email, ]
         send_mail(subject, plain_message, email_from,
                   recipient_list, html_message=html_message, fail_silently=True)
-        # send_mail(subject, "Success", email_from,
-        #           recipient_list)
-        return None
+        return total_amount
     except:
         subject = 'Karma Shop - Order Confirmation'
         email_from = settings.EMAIL_HOST_USER

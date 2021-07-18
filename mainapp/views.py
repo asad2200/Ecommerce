@@ -195,7 +195,6 @@ def get_user_detail(request, key):
 def check_user(request):
     try:
         User.objects.get(username=get_user_detail(request, "username"))
-        print(get_user_detail(request, "username"))
         messages.add_message(
             request,
             messages.ERROR,
