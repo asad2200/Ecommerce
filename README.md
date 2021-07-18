@@ -11,4 +11,4 @@
 3. Download or clone this project
 4. Go to project directory and run ` pip install -r requirments.txt`
 5. start the celery worker using `celery -A ecomm -l INFO`
-6 start django server `python manage.py runserver`
+6. start django server `python manage.py runserver`
